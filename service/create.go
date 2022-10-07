@@ -22,10 +22,7 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		logger.Error("Error decoding json body")
-		response.WriteJson(w, http.StatusBadRequest, response.ErrorReponse{
-			Code:    http.StatusBadRequest,
-			Message: "Error decoding json body",
-		})
+		response.WriteJson(w, http.StatusBadRequest, response.NewBadRequestError("Error decoding json body"))
 		return
 	}
 
@@ -39,10 +36,7 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		logger.Error("Error saving to the db")
-		response.WriteJson(w, http.StatusInternalServerError, response.ErrorReponse{
-			Code:    http.StatusInternalServerError,
-			Message: "Error saving to the db",
-		})
+		response.WriteJson(w, http.StatusInternalServerError, response.NewInternalError("Error saving to the db"))
 		return
 	}
 
