@@ -28,7 +28,7 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 
 	orderId := uuid.New().String()
 	err = dao.CreateOrder(&dao.OrderRecord{
-		OrderId:    dao.QuotePrefixPK + orderId,
+		OrderId:    dao.OrderPrefixPK + orderId,
 		RecordType: dao.ItemSK,
 		Items:      req.ItemIds,
 		Created:    time.Now(),

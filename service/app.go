@@ -26,5 +26,7 @@ func New() *Service {
 func Routes() *httprouter.Router {
 	router := httprouter.New()
 	router.HandlerFunc("POST", "/", CreateOrderHandler)
+	// TODO Add paramater
+	router.HandlerFunc("GET", "/", GetOrderHandler)
 	return router
 }
