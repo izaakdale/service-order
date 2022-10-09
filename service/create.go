@@ -16,7 +16,7 @@ import (
 	"github.com/izaakdale/utils-go/response"
 )
 
-func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
+func createOrderHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Creating order... 📝")
 	var req order.CreateOrderRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

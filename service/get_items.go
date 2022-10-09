@@ -10,7 +10,7 @@ import (
 	"github.com/izaakdale/utils-go/response"
 )
 
-func GetItemsHandler(w http.ResponseWriter, r *http.Request) {
+func getItemsHandler(w http.ResponseWriter, r *http.Request) {
 	var req order.GetOrderRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {

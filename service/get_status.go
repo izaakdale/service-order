@@ -10,7 +10,7 @@ import (
 	"github.com/izaakdale/utils-go/response"
 )
 
-func GetStatusHandler(w http.ResponseWriter, r *http.Request) {
+func getStatusHandler(w http.ResponseWriter, r *http.Request) {
 	var req order.GetOrderRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
