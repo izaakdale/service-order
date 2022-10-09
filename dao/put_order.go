@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 )
 
-func CreateOrder(o *OrderRecord) error {
+func PutOrder(o *OrderRecord) error {
 
 	orderMap, err := dynamodbattribute.MarshalMap(o)
 	if err != nil {
