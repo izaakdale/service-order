@@ -6,7 +6,7 @@ import (
 	"github.com/izaakdale/utils-go/logger"
 )
 
-func GetOrderItems(pk string) (*ItemsRecord, error) {
+func FetchOrderItems(pk string) (*ItemsRecord, error) {
 
 	req := struct {
 		PK string `dynamodbav:"PK"`

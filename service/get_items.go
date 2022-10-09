@@ -19,7 +19,7 @@ func getItemsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	o, err := dao.GetOrderItems(req.OrderId)
+	o, err := dao.FetchOrderItems(req.OrderId)
 	if err != nil {
 		logger.Error("Error getting from the db")
 		response.WriteJson(w, http.StatusInternalServerError, response.NewInternalError(err.Error()))

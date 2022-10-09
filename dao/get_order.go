@@ -1,42 +1,71 @@
 package dao
 
 import (
+	"context"
+	"errors"
+
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
 	"github.com/izaakdale/utils-go/logger"
 )
 
-func GetOrder(pk string) (*OrderRecord, error) {
+func FetchOrder(pk string) (*OrderRecord, error) {
 
-	req := struct {
-		PK string `dynamodbav:"PK"`
-		SK string `dynamodbav:"SK"`
-	}{
-		PK: OrderPrefixPK + pk,
-		// SK: sk,
-	}
-	avs, err := dynamodbattribute.MarshalMap(&req)
+	keyCond := expression.Key("PK").Equal(expression.Value(OrderPrefixPK + pk))
+	proj := expression.NamesList(
+		expression.Name("SK"),
+		expression.Name("items"),
+		expression.Name("created"),
+		expression.Name("status"),
+		expression.Name("address"),
+	)
+	expr, err := expression.NewBuilder().
+		WithKeyCondition(keyCond).
+		WithProjection(proj).
+		Build()
 	if err != nil {
-		logger.Error("marshal mapping error")
+		logger.Error("expression build failure")
 		return nil, err
 	}
 
-	out, err := client.GetItem(&dynamodb.GetItemInput{
-		TableName: &client.tableName,
-		Key:       avs,
-	})
+	input := &dynamodb.QueryInput{
+		TableName:                 aws.String(client.tableName),
+		KeyConditionExpression:    expr.KeyCondition(),
+		ExpressionAttributeNames:  expr.Names(),
+		ExpressionAttributeValues: expr.Values(),
+		ProjectionExpression:      expr.Projection(),
+	}
+
+	out, err := client.QueryWithContext(context.Background(), input)
 	if err != nil {
-		logger.Error("get item error")
+		logger.Error("query error")
 		return nil, err
 	}
 
-	// TODO just using status record to get things going
-	var resp OrderRecord
-	err = dynamodbattribute.UnmarshalMap(out.Item, &resp)
-	if err != nil {
-		logger.Error("unmarshal mapping error")
-		return nil, err
+	if out.Count == nil {
+		logger.Error("not found error")
+		return nil, errors.New("No records found")
 	}
 
-	return &resp, nil
+	// fmt.Println(out.Items)
+
+	var ret OrderRecord
+	for _, item := range out.Items {
+		var record OrderRecord
+		if err := dynamodbattribute.UnmarshalMap(item, &record); err != nil {
+			logger.Error("unmarshal error")
+			return nil, err
+		}
+		switch record.RecordType {
+		case ItemSK:
+			ret.Items = record.Items
+			ret.Created = record.Created
+		case StatusSK:
+			ret.Status = record.Status
+			ret.Address = record.Address
+		}
+	}
+	return &ret, nil
 }

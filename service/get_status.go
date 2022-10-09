@@ -19,7 +19,7 @@ func getStatusHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	o, err := dao.GetStatusHandler(req.OrderId)
+	o, err := dao.FetchStatus(req.OrderId)
 	if err != nil {
 		logger.Error("Error getting from the db")
 		response.WriteJson(w, http.StatusInternalServerError, response.NewInternalError(err.Error()))

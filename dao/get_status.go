@@ -6,7 +6,7 @@ import (
 	"github.com/izaakdale/utils-go/logger"
 )
 
-func GetStatusHandler(pk string) (*StatusRecord, error) {
+func FetchStatus(pk string) (*StatusRecord, error) {
 
 	req := struct {
 		PK string `dynamodbav:"PK"`
