@@ -6,17 +6,16 @@ import (
 	"github.com/izaakdale/utils-go/logger"
 )
 
-// type getOrderRequest struct {
-// 	PK string `dynamodbav:"PK"`
-// 	SK string `dynamodbav:"SK"`
-// }
-
 func GetOrderItems(pk string) (*ItemsRecord, error) {
 
-	req := getOrderRequest{
+	req := struct {
+		PK string `dynamodbav:"PK"`
+		SK string `dynamodbav:"SK"`
+	}{
 		PK: OrderPrefixPK + pk,
 		SK: ItemSK,
 	}
+
 	avs, err := dynamodbattribute.MarshalMap(&req)
 	if err != nil {
 		logger.Error("marshal mapping error")

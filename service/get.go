@@ -19,7 +19,7 @@ func GetOrderHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	o, err := dao.GetOrder(req.OrderId, req.RecordType)
+	o, err := dao.GetOrder(req.OrderId)
 	if err != nil {
 		logger.Error("Error getting from the db")
 		response.WriteJson(w, http.StatusInternalServerError, response.NewInternalError(err.Error()))

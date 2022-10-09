@@ -14,17 +14,19 @@ message CreateOrderResponse {
 
 message GetOrderRequest {
     string order_id = 1;
+}
+
+message GetRecordRequest {
+    string order_id = 1;
     string record_type = 2;
 }
+
 message GetOrderReponse {
     Address address = 1;
     repeated string item_ids = 2;
     google.protobuf.Timestamp order_date = 3;
     string order_status = 4;
 }
-// message GetOrderStatusResponse {
-//     string order_status = 1;
-// }
 
 message Address {
     string house_name_or_number = 1;
