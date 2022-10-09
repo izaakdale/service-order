@@ -28,5 +28,7 @@ func Routes() *httprouter.Router {
 	router.HandlerFunc("POST", "/", CreateOrderHandler)
 	// TODO Add paramater
 	router.HandlerFunc("GET", "/", GetOrderHandler)
+	router.HandlerFunc("GET", "/status", GetStatusHandler)
+	router.HandlerFunc("GET", "/items", GetItemsHandler)
 	return router
 }
