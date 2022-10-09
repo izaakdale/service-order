@@ -12,7 +12,7 @@ func FetchOrderItems(pk string) (*ItemsRecord, error) {
 		PK string `dynamodbav:"PK"`
 		SK string `dynamodbav:"SK"`
 	}{
-		PK: OrderPrefixPK + pk,
+		PK: OrderPK(pk),
 		SK: ItemSK,
 	}
 

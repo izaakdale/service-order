@@ -12,7 +12,7 @@ import (
 
 func FetchOrder(pk string) (*OrderRecord, error) {
 
-	keyCond := expression.Key("PK").Equal(expression.Value(OrderPrefixPK + pk))
+	keyCond := expression.Key("PK").Equal(expression.Value(OrderPK(pk)))
 	proj := expression.NamesList(
 		expression.Name("SK"),
 		expression.Name("items"),

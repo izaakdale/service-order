@@ -12,7 +12,7 @@ func FetchStatus(pk string) (*StatusRecord, error) {
 		PK string `dynamodbav:"PK"`
 		SK string `dynamodbav:"SK"`
 	}{
-		PK: OrderPrefixPK + pk,
+		PK: OrderPK(pk),
 		SK: StatusSK,
 	}
 
