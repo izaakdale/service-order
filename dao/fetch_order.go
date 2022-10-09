@@ -2,7 +2,6 @@ package dao
 
 import (
 	"context"
-	"errors"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
@@ -44,9 +43,9 @@ func FetchOrder(pk string) (*OrderRecord, error) {
 		return nil, err
 	}
 
-	if out.Count == nil {
+	if *out.Count == 0 {
 		logger.Error("not found error")
-		return nil, errors.New("No records found")
+		return nil, ErrNoItemsFound
 	}
 
 	// fmt.Println(out.Items)

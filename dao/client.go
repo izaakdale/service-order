@@ -1,12 +1,18 @@
 package dao
 
 import (
+	"errors"
 	"log"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
+)
+
+var (
+	ErrClientNotInitialised = errors.New("client not yet initialised")
+	ErrNoItemsFound         = errors.New("no items found")
 )
 
 var client *Client

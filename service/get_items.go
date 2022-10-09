@@ -22,6 +22,10 @@ func getItemsHandler(w http.ResponseWriter, r *http.Request) {
 	o, err := dao.FetchOrderItems(req.OrderId)
 	if err != nil {
 		logger.Error("Error getting from the db")
+		if err == dao.ErrNoItemsFound {
+			response.WriteJson(w, http.StatusNotFound, response.NewNotFoundError(err.Error()))
+			return
+		}
 		response.WriteJson(w, http.StatusInternalServerError, response.NewInternalError(err.Error()))
 		return
 	}

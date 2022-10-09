@@ -31,6 +31,10 @@ func FetchOrderItems(pk string) (*ItemsRecord, error) {
 		return nil, err
 	}
 
+	if out.Item == nil {
+		return nil, ErrNoItemsFound
+	}
+
 	// TODO just using status record to get things going
 	var resp ItemsRecord
 	err = dynamodbattribute.UnmarshalMap(out.Item, &resp)
