@@ -11,12 +11,13 @@ type Service struct {
 	Router *httprouter.Router
 }
 
-func New() *Service {
+func New(tableName, region, deliverSrvAddr string) *Service {
+
 	logger.Info("Starting service...🚀")
 
 	// TODO remove hard coding
-	dao.Init("ordering-app", "eu-west-2")
-	deliveryclient.Init()
+	dao.Init(tableName, region)
+	deliveryclient.Init(deliverSrvAddr)
 
 	return &Service{
 		Router: Routes(),

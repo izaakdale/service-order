@@ -1,7 +1,7 @@
 PROTO_DIR=pkg/model/order
 
 run:
-	SERVER_ADDRESS="8080" go run main.go
+	SERVICE_ADDRESS=8080 SERVICE_DYNAMOTABLENAME=ordering-app SERVICE_DYNAMOREGION=eu-west-2 SERVICE_GRPCADDRESS=localhost:50001 go run main.go
 
 gproto:
 	protoc --proto_path=. --go_out=. --go_opt=paths=source_relative ${PROTO_DIR}/*.proto \
