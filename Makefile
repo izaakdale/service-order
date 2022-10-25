@@ -6,3 +6,8 @@ run:
 gproto:
 	protoc --proto_path=. --go_out=. --go_opt=paths=source_relative ${PROTO_DIR}/*.proto \
 	 --go-grpc_out=. --go-grpc_opt=paths=source_relative ${PROTO_DIR}/*.proto
+
+build:
+	GOOS=linux go build -o service-order . 
+docker_build:
+	docker build --no-cache -t izaakdale/service-order .
