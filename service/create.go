@@ -32,7 +32,6 @@ func createOrderHandler(w http.ResponseWriter, r *http.Request) {
 		RecordType: dao.ItemSK,
 		Items:      req.ItemIds,
 		Created:    time.Now(),
-		// Ttl:        time.Now().Unix() + 24*int64(time.Hour.Seconds()),
 	})
 
 	if err != nil {
