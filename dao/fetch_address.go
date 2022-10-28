@@ -35,7 +35,6 @@ func FetchAddress(pk string) (*AddressRecord, error) {
 		return nil, ErrNoItemsFound
 	}
 
-	// TODO just using status record to get things going
 	var resp AddressRecord
 	err = dynamodbattribute.UnmarshalMap(out.Item, &resp)
 	if err != nil {
