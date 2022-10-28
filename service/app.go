@@ -31,5 +31,6 @@ func Routes() *httprouter.Router {
 	router.HandlerFunc("GET", "/", getOrderHandler)
 	router.HandlerFunc("GET", "/status", getStatusHandler)
 	router.HandlerFunc("GET", "/items", getItemsHandler)
+	router.HandlerFunc("GET", "/address", getAddressHandler)
 	return router
 }

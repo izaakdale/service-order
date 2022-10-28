@@ -27,3 +27,9 @@ type StatusRecord struct {
 	RecordType string `dynamodbav:"SK" json:"record_type,omitempty"`
 	Status     string `json:"status,omitempty"`
 }
+
+type AddressRecord struct {
+	OrderId    string            `dynamodbav:"PK" json:"order_id,omitempty"`
+	RecordType string            `dynamodbav:"SK" json:"record_type,omitempty"`
+	Address    *delivery.Address `json:"address,omitempty"`
+}
