@@ -31,7 +31,7 @@ func createOrderHandler(w http.ResponseWriter, r *http.Request) {
 		OrderId:    dao.OrderPK(orderId),
 		RecordType: dao.ItemSK,
 		Items:      req.ItemIds,
-		Created:    time.Now(),
+		Created:    time.Now().UTC(),
 	})
 
 	if err != nil {
