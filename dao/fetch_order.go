@@ -63,6 +63,7 @@ func FetchOrder(pk string) (*OrderRecord, error) {
 			ret.Created = record.Created
 		case StatusSK:
 			ret.Status = record.Status
+		case AddressSK:
 			ret.Address = record.Address
 		}
 	}
