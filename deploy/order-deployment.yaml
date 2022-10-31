@@ -17,7 +17,7 @@ spec:
       serviceAccountName: aws-dynamo
       containers:
       - name: order
-        image: izaakdale/service-order
+        image: 735542962543.dkr.ecr.eu-west-2.amazonaws.com/service-order:4d6b038f48fe33885c982222d4434e7bd440086c
         env: 
         - name: SERVICE_ADDRESS
           value: "80"
@@ -26,7 +26,7 @@ spec:
         - name: SERVICE_DYNAMOREGION
           value: "eu-west-2"
         - name: SERVICE_GRPCADDRESS
-          value: "172.20.142.32:50001"
+          value: "delivery.default.svc.cluster.local:50001"
         ports:
         - name: web
           containerPort: 80

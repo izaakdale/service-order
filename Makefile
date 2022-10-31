@@ -15,3 +15,6 @@ build_amd:
 	GOOS=linux GOARCH=amd64 go build -o service-order . 
 docker_build_amd:
 	docker buildx build --no-cache --platform linux/amd64  -t izaakdale/service-order .
+
+kust:
+	kubectl apply -k ./deploy
