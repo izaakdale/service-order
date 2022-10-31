@@ -15,7 +15,6 @@ func New(tableName, region, deliverSrvAddr string) *Service {
 
 	logger.Info("Starting service...🚀")
 
-	// TODO remove hard coding
 	dao.Init(tableName, region)
 	deliveryclient.Init(deliverSrvAddr)
 
@@ -27,7 +26,6 @@ func New(tableName, region, deliverSrvAddr string) *Service {
 func Routes() *httprouter.Router {
 	router := httprouter.New()
 	router.HandlerFunc("POST", "/", createOrderHandler)
-	// TODO Add paramater
 	router.HandlerFunc("GET", "/", getOrderHandler)
 	router.HandlerFunc("GET", "/status", getStatusHandler)
 	router.HandlerFunc("GET", "/items", getItemsHandler)
