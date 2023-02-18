@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/google/uuid"
@@ -11,10 +12,13 @@ import (
 )
 
 func Insert(o notifications.OrderCreatedPayload) error {
+	if client == nil {
+		return ErrClientNotInitialised
+	}
 	// there will be a write request for each attendee plus one meta
-	wr := make([]types.WriteRequest, len(o.OrderRequest.Attendees)+1)
+	wr := make([]types.WriteRequest, 0)
 
-	_ = OrderRecord{
+	mRec := OrderRecord{
 		PK: createKey(orderPK, o.OrderID),
 		SK: metaSK,
 
@@ -31,14 +35,14 @@ func Insert(o notifications.OrderCreatedPayload) error {
 		},
 	}
 
-	// recMap, err := attributevalue.MarshalMap(mRec)
-	// if err != nil {
-	// 	return err
-	// }
-	// wr = append(wr, types.WriteRequest{PutRequest: recMap})
+	recMap, err := attributevalue.MarshalMap(mRec)
+	if err != nil {
+		return err
+	}
+	wr = append(wr, types.WriteRequest{PutRequest: &types.PutRequest{Item: recMap}})
 
 	for _, attendee := range o.OrderRequest.Attendees {
-		_ = OrderRecord{
+		tRec := OrderRecord{
 			PK: createKey(orderPK, o.OrderID),
 			SK: createKey(ticketSK, uuid.New().String()),
 
@@ -54,14 +58,14 @@ func Insert(o notifications.OrderCreatedPayload) error {
 			},
 		}
 
-		// tMap, err := attributevalue.MarshalMap(tRec)
-		// if err != nil {
-		// 	return err
-		// }
-		// wr = append(wr, types.WriteRequest{PutRequest: tMap})
+		tMap, err := attributevalue.MarshalMap(tRec)
+		if err != nil {
+			return err
+		}
+		wr = append(wr, types.WriteRequest{PutRequest: &types.PutRequest{Item: tMap}})
 	}
 
-	_, err := client.BatchWriteItem(context.Background(), &dynamodb.BatchWriteItemInput{
+	_, err = client.BatchWriteItem(context.Background(), &dynamodb.BatchWriteItemInput{
 		RequestItems: map[string][]types.WriteRequest{
 			client.tableName: wr,
 		},

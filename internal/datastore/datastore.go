@@ -2,11 +2,15 @@ package datastore
 
 import (
 	"context"
+	"errors"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
 
-var client *Client
+var (
+	client                  *Client
+	ErrClientNotInitialised = errors.New("attempted to use client before initialisation")
+)
 
 type dynamodbIface interface {
 	BatchWriteItem(ctx context.Context, params *dynamodb.BatchWriteItemInput, optFns ...func(*dynamodb.Options)) (*dynamodb.BatchWriteItemOutput, error)

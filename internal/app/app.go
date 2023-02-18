@@ -7,9 +7,12 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/izaakdale/lib/listener"
 	"github.com/izaakdale/lib/publisher"
+	"github.com/izaakdale/service-event-order/internal/datastore"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -24,6 +27,7 @@ type (
 		AWSRegion   string `envconfig:"AWS_REGION"`
 		AWSEndpoint string `envconfig:"AWS_ENDPOINT"`
 		TopicArn    string `envconfig:"TOPIC_ARN"`
+		TableName   string `envconfig:"TABLE_NAME"`
 	}
 )
 
@@ -38,6 +42,8 @@ func Run() {
 		o.Region = spec.AWSRegion
 		return nil
 	})
+
+	datastore.Init(getAwsDynamoClient(cfg, spec.AWSEndpoint), spec.TableName)
 
 	err = publisher.Initialise(cfg, spec.TopicArn, publisher.WithEndpoint(spec.AWSEndpoint))
 	if err != nil {
@@ -68,4 +74,13 @@ func Run() {
 		log.Printf("got shutdown signal: %s, exiting\n", signal)
 		os.Exit(1)
 	}
+}
+
+// allows use of localstack
+func getAwsDynamoClient(cfg aws.Config, endpoint string) *dynamodb.Client {
+	if endpoint != "" {
+		return dynamodb.NewFromConfig(cfg, dynamodb.WithEndpointResolver(dynamodb.EndpointResolverFromURL(endpoint)))
+	}
+
+	return dynamodb.NewFromConfig(cfg)
 }

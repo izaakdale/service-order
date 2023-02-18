@@ -3,4 +3,5 @@ run:
 	AWS_REGION=eu-west-2 \
 	AWS_ENDPOINT=http://localhost:4566 \
 	TOPIC_ARN=arn:aws:sns:eu-west-2:000000000000:order-stored-events \
+	TABLE_NAME=orders \
 	go run .
