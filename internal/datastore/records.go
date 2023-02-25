@@ -29,3 +29,8 @@ type Address struct {
 	City         string `json:"city"`
 	Postcode     string `json:"postcode"`
 }
+
+type OrderTickets struct {
+	Email   string
+	Tickets []*TicketRecord
+}

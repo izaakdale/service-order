@@ -11,11 +11,14 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.17.4
 	github.com/aws/aws-sdk-go-v2/config v1.18.10
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.13
+	github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression v1.4.40
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.18.3
 	github.com/google/uuid v1.3.0
 	github.com/izaakdale/lib v0.0.0-20230209115250-eede945fb3cc
 	github.com/izaakdale/service-event v0.0.0-20230217103325-6736b1d0b598
 	github.com/kelseyhightower/envconfig v1.4.0
+	google.golang.org/grpc v1.53.0
+	google.golang.org/protobuf v1.28.1
 )
 
 require (
@@ -41,6 +44,4 @@ require (
 	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
-	google.golang.org/grpc v1.53.0 // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
 )

@@ -2,7 +2,9 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,12 +15,15 @@ import (
 	"github.com/izaakdale/lib/listener"
 	"github.com/izaakdale/lib/publisher"
 	"github.com/izaakdale/service-event-order/internal/datastore"
+	"github.com/izaakdale/service-event-order/pkg/proto/order"
 	"github.com/kelseyhightower/envconfig"
+	"google.golang.org/grpc"
 )
 
 var (
 	name = "service-event-order"
 	spec specification
+	gs   = &GServer{}
 )
 
 type (
@@ -28,6 +33,8 @@ type (
 		AWSEndpoint string `envconfig:"AWS_ENDPOINT"`
 		TopicArn    string `envconfig:"TOPIC_ARN"`
 		TableName   string `envconfig:"TABLE_NAME"`
+		GRPCHost    string `envconfig:"GRPC_HOST"`
+		GRPCPort    string `envconfig:"GRPC_PORT"`
 	}
 )
 
@@ -45,6 +52,9 @@ func Run() {
 
 	datastore.Init(getAwsDynamoClient(cfg, spec.AWSEndpoint), spec.TableName)
 
+	srv := grpc.NewServer()
+	order.RegisterOrderServiceServer(srv, gs)
+
 	err = publisher.Initialise(cfg, spec.TopicArn, publisher.WithEndpoint(spec.AWSEndpoint))
 	if err != nil {
 		panic(err)
@@ -57,6 +67,20 @@ func Run() {
 
 	// want a thread stopping channel for errors in the listener
 	errChan := make(chan error, 3)
+
+	grpcServerSocket := fmt.Sprintf("%s:%s", spec.GRPCHost, spec.GRPCPort)
+
+	// grpc server setup
+	lis, err := net.Listen("tcp", grpcServerSocket)
+	if err != nil {
+		log.Fatalf("Failed to listen on %v\n", err)
+	}
+
+	go func(errChan chan<- error) {
+		log.Printf("listening for GRPC clients on %s\n", grpcServerSocket)
+		errChan <- srv.Serve(lis)
+	}(errChan)
+
 	go listener.Listen(orderEventListener, errChan)
 
 	// subscribe to shutdown signals

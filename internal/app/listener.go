@@ -12,13 +12,13 @@ import (
 )
 
 func orderEventListener(m listener.Message) error {
-	log.Printf("recieved messagge %+v\n", m)
 	var n createdNotif.OrderCreatedPayload
 	err := json.Unmarshal([]byte(m.Message), &n)
 	if err != nil {
 		return err
 	}
 
+	log.Printf("processing order %+v\n", n.OrderID)
 	err = datastore.Insert(n)
 	if err != nil {
 		return err
