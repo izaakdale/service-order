@@ -1,6 +1,6 @@
 module github.com/izaakdale/service-event-order
 
-go 1.19
+go 1.20
 
 replace (
 	github.com/izaakdale/lib => ../lib
