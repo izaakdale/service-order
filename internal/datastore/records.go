@@ -4,9 +4,9 @@ type OrderRecord struct {
 	PK string `dynamodbav:"PK" json:"-"`
 	SK string `dynamodbav:"SK" json:"-"`
 
-	Type     string       `dynamodbav:"type" json:"type"`
-	Metadata MetaRecord   `dynamodbav:"metadata" json:"metadata"`
-	Ticket   TicketRecord `dynamodbav:"ticket" json:"ticket"`
+	Type   string       `dynamodbav:"type" json:"type"`
+	Meta   MetaRecord   `dynamodbav:"meta" json:"metadata"`
+	Ticket TicketRecord `dynamodbav:"ticket" json:"ticket"`
 }
 
 type TicketRecord struct {

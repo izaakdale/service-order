@@ -19,7 +19,7 @@ func FetchOrderTickets(id string) (*OrderTickets, error) {
 
 	keyCond := expression.Key("PK").Equal(expression.Value(createKey(orderPK, id)))
 	proj := expression.NamesList(
-		expression.Name("metadata"),
+		expression.Name("meta"),
 		expression.Name("ticket"),
 		expression.Name("type"),
 	)

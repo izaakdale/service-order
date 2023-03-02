@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"log"
 
 	"github.com/izaakdale/service-event-order/internal/datastore"
 	"github.com/izaakdale/service-event-order/pkg/proto/order"
@@ -15,7 +14,6 @@ type (
 )
 
 func (gs *GServer) GetOrder(ctx context.Context, req *order.OrderRequest) (*order.OrderResponse, error) {
-	log.Printf("hit get order\n")
 	o, err := datastore.FetchOrderTickets(req.OrderId)
 	if err != nil {
 		return nil, err

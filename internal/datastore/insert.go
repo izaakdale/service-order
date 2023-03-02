@@ -23,7 +23,7 @@ func Insert(o notifications.OrderCreatedPayload) error {
 		SK: metaSK,
 
 		Type: metaSK,
-		Metadata: MetaRecord{
+		Meta: MetaRecord{
 			Email:       o.OrderRequest.ContactDetails.Email,
 			PhoneNumber: o.OrderRequest.ContactDetails.PhoneNumber,
 			Address: Address{
