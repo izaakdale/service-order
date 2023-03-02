@@ -2,11 +2,6 @@ module github.com/izaakdale/service-event-order
 
 go 1.20
 
-replace (
-	github.com/izaakdale/lib => ../lib
-	github.com/izaakdale/service-event => ../service-event
-)
-
 require (
 	github.com/aws/aws-sdk-go-v2 v1.17.4
 	github.com/aws/aws-sdk-go-v2/config v1.18.10
@@ -15,7 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.18.3
 	github.com/google/uuid v1.3.0
 	github.com/izaakdale/lib v0.0.0-20230209115250-eede945fb3cc
-	github.com/izaakdale/service-event v0.0.0-20230217103325-6736b1d0b598
+	github.com/izaakdale/service-event v0.0.0-20230227113834-241bb1b912ae
 	github.com/kelseyhightower/envconfig v1.4.0
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.28.1

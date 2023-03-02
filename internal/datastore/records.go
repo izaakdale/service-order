@@ -10,6 +10,7 @@ type OrderRecord struct {
 }
 
 type TicketRecord struct {
+	TicketID  string `json:"ticket_id"`
 	FirstName string `json:"first_name"`
 	Surname   string `json:"surname"`
 	Dob       string `json:"dob"`

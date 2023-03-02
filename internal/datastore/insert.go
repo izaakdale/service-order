@@ -42,12 +42,14 @@ func Insert(o notifications.OrderCreatedPayload) error {
 	wr = append(wr, types.WriteRequest{PutRequest: &types.PutRequest{Item: recMap}})
 
 	for _, attendee := range o.OrderRequest.Attendees {
+		ticketID := uuid.New().String()
 		tRec := OrderRecord{
 			PK: createKey(orderPK, o.OrderID),
-			SK: createKey(ticketSK, uuid.New().String()),
+			SK: createKey(ticketSK, ticketID),
 
 			Type: ticketSK,
 			Ticket: TicketRecord{
+				TicketID:  ticketID,
 				FirstName: attendee.Name,
 				Surname:   attendee.Surname,
 				Dob:       fmt.Sprintf("%d/%d/%d", attendee.BirthYear, attendee.BirthMonth, attendee.BirthDay),

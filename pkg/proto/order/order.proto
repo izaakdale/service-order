@@ -17,8 +17,9 @@ message OrderResponse {
 }
 
 message Ticket {
-    string first_name = 1;
-    string surname = 2;
-    string qr_path = 3;
-    string ticket_type = 4;
+    string ticket_id = 1;
+    string first_name = 2;
+    string surname = 3;
+    string qr_path = 4;
+    string ticket_type = 5;
 }
