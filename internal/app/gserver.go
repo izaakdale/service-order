@@ -19,7 +19,7 @@ func (gs *GServer) GetOrder(ctx context.Context, req *order.OrderRequest) (*orde
 		return nil, err
 	}
 
-	tickets := make([]*order.Ticket, len(o.Tickets))
+	tickets := make([]*order.Ticket, 0, len(o.Tickets))
 	for _, v := range o.Tickets {
 		tickets = append(tickets, &order.Ticket{
 			TicketId:   v.TicketID,
