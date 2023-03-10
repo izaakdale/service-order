@@ -5,6 +5,7 @@ option go_package="github.com/izaakdale/service-event-order/pkg/schema/order";
 
 service OrderService {
     rpc GetOrder(OrderRequest) returns (OrderResponse);
+    rpc ScanTicket(ScanRequest) returns (ScanResponse);
 }
 
 message OrderRequest {
@@ -22,4 +23,13 @@ message Ticket {
     string surname = 3;
     string qr_path = 4;
     string ticket_type = 5;
+}
+
+message ScanRequest {
+    string order_id = 1;
+    string ticket_id = 2;
+}
+
+message ScanResponse {
+    bool scanned = 1;
 }

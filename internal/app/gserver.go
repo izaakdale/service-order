@@ -35,3 +35,15 @@ func (gs *GServer) GetOrder(ctx context.Context, req *order.OrderRequest) (*orde
 		Tickets: tickets,
 	}, nil
 }
+
+// TODO should order package be ticket here?
+func (gs *GServer) ScanTicket(ctx context.Context, req *order.ScanRequest) (*order.ScanResponse, error) {
+	err := datastore.Update(ctx, req.OrderId, req.TicketId)
+	if err != nil {
+		return nil, err
+	}
+
+	return &order.ScanResponse{
+		Scanned: true,
+	}, nil
+}
