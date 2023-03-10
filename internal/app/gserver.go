@@ -38,7 +38,7 @@ func (gs *GServer) GetOrder(ctx context.Context, req *order.OrderRequest) (*orde
 
 // TODO should order package be ticket here?
 func (gs *GServer) ScanTicket(ctx context.Context, req *order.ScanRequest) (*order.ScanResponse, error) {
-	err := datastore.Update(ctx, req.OrderId, req.TicketId)
+	err := datastore.Update(ctx, req.TicketId)
 	if err != nil {
 		return nil, err
 	}

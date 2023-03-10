@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
 
-func Update(ctx context.Context, _, ticketID string) error {
+func Update(ctx context.Context, ticketID string) error {
 	ticket, orderID, err := FetchTicket(ctx, ticketID)
 	if err != nil {
 		return err
