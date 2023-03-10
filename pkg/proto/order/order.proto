@@ -26,8 +26,7 @@ message Ticket {
 }
 
 message ScanRequest {
-    string order_id = 1;
-    string ticket_id = 2;
+    string ticket_id = 1;
 }
 
 message ScanResponse {
