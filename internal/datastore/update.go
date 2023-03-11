@@ -2,6 +2,7 @@ package datastore
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -10,10 +11,18 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
 
+var (
+	ErrTicketScanned = errors.New("ticket has previously been scanned")
+)
+
 func Update(ctx context.Context, ticketID string) error {
 	ticket, orderID, err := FetchTicket(ctx, ticketID)
 	if err != nil {
 		return err
+	}
+
+	if ticket.QRScanned == true {
+		return ErrTicketScanned
 	}
 
 	ticket.QRScanned = true
