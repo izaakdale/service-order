@@ -2,6 +2,7 @@ package datastore
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -26,6 +27,10 @@ func FetchTicket(ctx context.Context, ticketID string) (*TicketRecord, string, e
 	})
 	if err != nil {
 		return nil, "", err
+	}
+
+	if len(out.Items) == 0 {
+		return nil, "", errors.New("not found")
 	}
 
 	var ticket TicketRecord

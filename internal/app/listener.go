@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 
@@ -11,7 +12,7 @@ import (
 	createdNotif "github.com/izaakdale/service-event/pkg/notifications"
 )
 
-func orderEventListener(m listener.Message) error {
+func orderEventListener(ctx context.Context, m listener.Message) error {
 	var n createdNotif.OrderCreatedPayload
 	err := json.Unmarshal([]byte(m.Message), &n)
 	if err != nil {
@@ -35,7 +36,7 @@ func orderEventListener(m listener.Message) error {
 		return err
 	}
 
-	_, err = publisher.Publish(string(oBytes))
+	_, err = publisher.Publish(ctx, string(oBytes))
 	if err != nil {
 		return err
 	}

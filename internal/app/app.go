@@ -39,6 +39,10 @@ type (
 )
 
 func Run() {
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	err := envconfig.Process("", &spec)
 	if err != nil {
 		panic(err)
@@ -81,7 +85,7 @@ func Run() {
 		errChan <- srv.Serve(lis)
 	}(errChan)
 
-	go listener.Listen(orderEventListener, errChan)
+	go listener.Listen(ctx, orderEventListener, errChan)
 
 	// subscribe to shutdown signals
 	shutCh := make(chan os.Signal, 1)
