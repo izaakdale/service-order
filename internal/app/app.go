@@ -21,7 +21,7 @@ import (
 )
 
 var (
-	name = "service-event-order"
+	name = "service-order"
 	spec specification
 	gs   = &GServer{}
 )
@@ -39,7 +39,6 @@ type (
 )
 
 func Run() {
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
