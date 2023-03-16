@@ -1,4 +1,13 @@
 run:
+	QUEUE_URL=https://sqs.eu-west-2.amazonaws.com/735542962543/order-placed-queue \
+	AWS_REGION=eu-west-2 \
+	TOPIC_ARN=arn:aws:sns:eu-west-2:735542962543:order-stored-events \
+	TABLE_NAME=orders \
+	GRPC_HOST=localhost \
+	GRPC_PORT=50002 \
+	go run .
+
+run_local:
 	QUEUE_URL=http://localhost:4566/000000000000/order-placed-queue \
 	AWS_REGION=eu-west-2 \
 	AWS_ENDPOINT=http://localhost:4566 \
@@ -18,3 +27,6 @@ gproto:
 	 --go-grpc_out=. \
 	 --go-grpc_opt=paths=source_relative \
 	 ${PROTO_DIR}/*.proto
+
+build:
+	docker build --tag service-order .
